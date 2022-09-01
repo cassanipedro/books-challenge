@@ -20,7 +20,6 @@ const mainController = {
      include: [{ association: 'authors' }]
    })
      .then(book => {
-       console.log(book.dataValues.authors)
        res.render('bookDetail', {book: book.dataValues, authors: book.dataValues.authors})
      })
  },
@@ -50,7 +49,9 @@ const mainController = {
  },
  authorBooks: (req, res) => {
    // Implement books by author
-   res.render('authorBooks');
+   db.Author.findByPk(req.params.id, {
+     include: [{ association: 'books' }]
+   }).then(result => res.render('authorBooks', {books: result.books}));
  },
  register: (req, res) => {
    res.render('register');
