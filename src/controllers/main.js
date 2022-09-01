@@ -38,7 +38,27 @@ const mainController = {
  },
  deleteBook: (req, res) => {
    // Implement delete book
-   res.render('home');
+ //   db.Book.destroy({
+ //     where: {
+ //         id: req.params.id
+ //     },
+ //     include: [{
+ //       model: db.Author,
+ //       as: 'authors'
+ //   }],
+ //     force: true,
+ // })
+ db.Book.destroy({
+   where: {
+     id: req.params.id
+   },
+   forcer: true
+ })
+ .then(() => {
+   db.Book.findAll().then(books =>
+   res.render('home', {books})
+   )
+ }).catch(errors => console.error(errors))
  },
  authors: (req, res) => {
    db.Author.findAll()
@@ -79,11 +99,39 @@ const mainController = {
  },
  edit: (req, res) => {
    // Implement edit book
-   res.render('editBook', {id: req.params.id})
+   db.Book.findByPk(req.params.id).then(book => {
+     const {id, title, description, cover} = book;
+     res.render('editBook', {id, title, description, cover})
+   })
+  
  },
  processEdit: (req, res) => {
    // Implement edit book
-   res.render('home');
+   console.log("--------------------------------------------------------", req.body)
+   const {title, cover, description} = req.body;
+   if(title && cover && description) {
+     db.Book.update({title, cover, description}, {where:{id: req.params.id}})
+     .then(() => db.Book.findAll({
+       include: [{ association: 'authors' }]
+     }))
+     .then((books) => res.render('home', { books }));
+     return;
+   }
+   let errors = {}
+   if(!title){
+     errors.title = {msg: "TE FALTA TITULO"}
+   }
+   if(!cover){
+     errors.cover = {msg: "TE FALTA COVER"}
+   }
+   if(!description){
+     errors.description = {msg: "TE FALTA DESCRIPTION"}
+   }
+   db.Book.findByPk(req.params.id).then(book => {
+     const {id, title, description, cover} = book;
+     console.log("ESTA ENTRANDO ACA")
+     res.render('editBook', {id, title, description, cover, errors})
+   })
  }
 };
  
