@@ -4,6 +4,14 @@ const bcryptjs = require('bcryptjs');
 const db = require('../database/models');
 const Op = Sequelize.Op;
  
+const renderHome = (req, res) => db.Book.findAll({
+ include: [{ association: 'authors' }]
+})
+ .then((books) => {
+   res.render('home', { books });
+ })
+ .catch((error) => console.log(error));
+ 
 const mainController = {
  home: (req, res) => {
    db.Book.findAll({
@@ -95,7 +103,32 @@ const mainController = {
  },
  processLogin: (req, res) => {
    // Implement login process
-   res.render('home');
+   const {email, password} = req.body;
+   console.log(email, password);
+   db.User.findOne({
+     where:{
+       email: email
+     }
+   }).then(user =>
+     { if(!user){
+         res.render('login', {errors: {email: {msg: 'Invalid Email'}}});
+         return;
+       }
+     const isValid = bcryptjs.compareSync(password, user.Pass)
+       if(isValid){
+         console.log(req.session)
+         req.session.loggedUser = user;
+         console.log(req.session);
+         res.redirect('/');
+       } else {
+         res.render('login', {errors: {password: {msg: 'Invalid Password'}}, email: email});
+       }
+     }
+   )
+ },
+ processLogout: (req, res) => {
+   if(req.session) req.session.destroy();
+   res.redirect('/');
  },
  edit: (req, res) => {
    // Implement edit book
@@ -107,7 +140,6 @@ const mainController = {
  },
  processEdit: (req, res) => {
    // Implement edit book
-   console.log("--------------------------------------------------------", req.body)
    const {title, cover, description} = req.body;
    if(title && cover && description) {
      db.Book.update({title, cover, description}, {where:{id: req.params.id}})
