@@ -28,7 +28,6 @@ const mainController = {
      include: [{ association: 'authors' }]
    })
      .then(book => {
-      console.log('------------------------',book,req.params,req)
        res.render('bookDetail', {book: book.dataValues, authors: book.dataValues.authors})
      })
  },
