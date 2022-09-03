@@ -32,3 +32,4 @@ module.exports = (sequelize, dataTypes) => {
   return Author;
  };
  
+ 
