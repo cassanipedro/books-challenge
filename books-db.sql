@@ -46,8 +46,9 @@ CREATE TABLE BooksAuthors (
    Id INT NOT NULL AUTO_INCREMENT,
    AuthorId INT NOT NULL,
    BookId  INT NOT NULL,
-   FOREIGN KEY (AuthorId) REFERENCES Authors(Id),
-   FOREIGN KEY (BookId) REFERENCES Books(Id),
+   FOREIGN KEY (AuthorId) REFERENCES Authors(Id) ON DELETE CASCADE,
+   FOREIGN KEY (BookId) REFERENCES Books(Id) ON DELETE CASCADE,
+   PRIMARY KEY(Id)
 );
  
 INSERT INTO BooksAuthors
@@ -98,5 +99,6 @@ VALUES
    ('Rowena Twitty', 'Rowena@gmail.com', 'USA', '$2a$10$6a6hr260zNMZ1DtF0/Ouj.L0sKn12S48OdTSrrJJrdY/2DCqSsiBu', 1),
    ('Fabian Webster', 'Fabian@gmail.com', 'India', '$2a$10$6a6hr260zNMZ1DtF0/Ouj.L0sKn12S48OdTSrrJJrdY/2DCqSsiBu', 1),
    ('Harper Mann', 'Harper@gmail.com', 'USA', '$2a$10$6a6hr260zNMZ1DtF0/Ouj.L0sKn12S48OdTSrrJJrdY/2DCqSsiBu', 2),
-   ('Christian Wenz', 'Christian@gmail.com', 'USA', '$2a$10$6a6hr260zNMZ1DtF0/Ouj.L0sKn12S48OdTSrrJJrdY/2DCqSsiBu', 2)
+   ('Christian Wenz', 'Christian@gmail.com', 'USA', '$2a$10$6a6hr260zNMZ1DtF0/Ouj.L0sKn12S48OdTSrrJJrdY/2DCqSsiBu', 2),
+   ('pepe@pepito','pepe@pepe.com','asdfa','$2a$10$Gh/mYkR3Rw1z2f/1l1JCwuPBiEGQ5rubeu2.DU7U2wj1v2vVHlTVa','1')
 ;

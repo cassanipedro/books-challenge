@@ -1,4 +1,4 @@
-!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
  <meta charset="UTF-8">
@@ -20,6 +20,7 @@
            <p class="lead mb-4 fw-bold">Authors: <%= author.name %> </p>
          <% }) %>
          <p class="lead mb-4"><%= book.description %></p>
+         <% if(locals.user.CategoryId === 1) {%>
          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
            <a href="/books/edit/<%= book.id %>">
              <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Edit</button>
@@ -28,6 +29,7 @@
              <button type="submit button" class="btn btn-outline-secondary btn-lg px-4">Delete</button>
            </form>
          </div>
+         <% } %>
        </div>
      </div>
  </div>

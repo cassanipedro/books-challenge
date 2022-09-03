@@ -22,7 +22,7 @@
                <div class="col-md-3 ps-5">
                   <h6 class="mb-0">Title</h6>
                  <% if(locals.errors && locals.errors.title){ %>
-                   <h6><%= errors.title.msg %> </h6>
+                   <p class="text-danger"><%= errors.title.msg %></p>
                  <% } %> 
                 </div>
                <div class="col-md-9 pe-5">
@@ -36,7 +36,7 @@
                <div class="col-md-3 ps-5">
                   <h6 class="mb-0">Cover</h6>
                  <% if(locals.errors && locals.errors.cover){ %>
-                   <h6><%= errors.cover.msg %> </h6>
+                   <p class="text-danger"><%= errors.cover.msg %></p>
                  <% } %> 
                 </div>
                <div class="col-md-9 pe-5">
@@ -48,7 +48,7 @@
                <div class="col-md-3 ps-5">
                   <h6 class="mb-0">Description</h6>
                  <% if(locals.errors && locals.errors.description){ %>
-                   <h6><%= errors.description.msg %> </h6>
+                   <p class="text-danger"><%= errors.description.msg %></p>
                  <% } %> 
                 </div>
                <div class="col-md-9 pe-5">

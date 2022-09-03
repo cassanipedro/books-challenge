@@ -23,16 +23,17 @@ module.exports = (sequelize, dataTypes) => {
     timestamps: false
   };
   const Book = sequelize.define(alias, cols, config);
-
+  
   Book.associate = function (models) {
     Book.belongsToMany(models.Author, {
       as: 'authors',
       through: 'BooksAuthors',
-      foreingKey: 'BookId',
       otherKey: 'AuthorId',
-      timestamps: false
+      timestamps: false,
+      onDelete: 'CASCADE'
     });
   };
-
+  
   return Book;
-};
+ };
+ 

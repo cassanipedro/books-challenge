@@ -46,27 +46,14 @@ const mainController = {
  },
  deleteBook: (req, res) => {
    // Implement delete book
- //   db.Book.destroy({
- //     where: {
- //         id: req.params.id
- //     },
- //     include: [{
- //       model: db.Author,
- //       as: 'authors'
- //   }],
- //     force: true,
- // })
  db.Book.destroy({
    where: {
      id: req.params.id
    },
-   forcer: true
+   force: true
  })
- .then(() => {
-   db.Book.findAll().then(books =>
-   res.render('home', {books})
-   )
- }).catch(errors => console.error(errors))
+ .catch(errors => console.error(errors));
+ res.redirect('/')
  },
  authors: (req, res) => {
    db.Author.findAll()
@@ -116,9 +103,8 @@ const mainController = {
        }
      const isValid = bcryptjs.compareSync(password, user.Pass)
        if(isValid){
-         console.log(req.session)
          req.session.loggedUser = user;
-         console.log(req.session);
+         res.cookie('loggedUser', email, {maxAge: 360000})
          res.redirect('/');
        } else {
          res.render('login', {errors: {password: {msg: 'Invalid Password'}}, email: email});
@@ -128,6 +114,7 @@ const mainController = {
  },
  processLogout: (req, res) => {
    if(req.session) req.session.destroy();
+   if(req.cookies && req.cookies.loggedUser) res.clearCookie('loggedUser');
    res.redirect('/');
  },
  edit: (req, res) => {
@@ -168,4 +155,3 @@ const mainController = {
 };
  
 module.exports = mainController;
-
