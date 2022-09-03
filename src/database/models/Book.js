@@ -29,6 +29,7 @@ module.exports = (sequelize, dataTypes) => {
       as: 'authors',
       through: 'BooksAuthors',
       otherKey: 'AuthorId',
+      foreignKey:'BookId',
       timestamps: false,
       onDelete: 'CASCADE'
     });

@@ -28,6 +28,7 @@ const mainController = {
      include: [{ association: 'authors' }]
    })
      .then(book => {
+      console.log('------------------------',book,req.params,req)
        res.render('bookDetail', {book: book.dataValues, authors: book.dataValues.authors})
      })
  },
@@ -133,7 +134,7 @@ const mainController = {
      .then(() => db.Book.findAll({
        include: [{ association: 'authors' }]
      }))
-     .then((books) => res.render('home', { books }));
+     .then((books) => res.redirect('/'));
      return;
    }
    let errors = {}
